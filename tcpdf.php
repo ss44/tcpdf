@@ -5709,6 +5709,30 @@ class TCPDF {
 		$this->textstrokewidth = $textstrokewidth;
 	}
 
+	public function TextArray( $params ){
+		$defaults = array(
+			'x' => null,
+			'y' => null, 
+			'txt' => null,
+			'fstroke' => false, 
+			'fclip' => false, 
+			'ffill' => true, 
+			'border' => 0, 
+			'ln' => 0, 
+			'align' => '', 
+			'fill' => false, 
+			'link' => '', 
+			'stretch' => 0, 
+			'ignore_min_height' => false, 
+			'calign' => 'T', 
+			'valign' => 'M', 
+			'rtloff' => false
+		);
+
+		$p = array_merge( $defaults, $params );
+		$this->Text( $p['x'], $p['y'], $p['txt'], $p['fstroke'], $p['fclip'], $p['ffill'], $p['border'], $p['ln'], $p['align'], $p['fill'], $p['link'], $p['stretch'], $p['ignore_min_height'], $p['calign'], $p['valign'], $p['rtloff'] );
+	}
+
 	/**
 	 * Whenever a page break condition is met, the method is called, and the break is issued or not depending on the returned value.
 	 * The default implementation returns a value according to the mode selected by SetAutoPageBreak().<br />
@@ -5837,6 +5861,34 @@ class TCPDF {
 		$this->_out($this->getCellCode($w, $h, $txt, $border, $ln, $align, $fill, $link, $stretch, true, $calign, $valign));
 		$this->cell_padding = $prev_cell_padding;
 		$this->cell_margin = $prev_cell_margin;
+	}
+
+	/**
+	 * An shortcut for the Cell method which instead of passing paramaters can be passed an array of values where the keys are the same as the paramaters names
+	 * for Cell. 
+	 * 
+	 * @param $params (Mixed) See expected and allowed param list for Cell. Where keys are the param names.
+	 * @see Cell
+	 */
+	public function CellArray( $params ){
+		
+		$defaults = array(
+			'w' => null,
+			'h' => 0,
+			'txt' => '',
+			'border' => 0,
+			'ln' => 0,
+			'align' => '',
+			'fill' => false,
+			'link' => '',
+			'streatch' => 0,
+			'ignore_min_height' => false,
+			'calign' => 'T',
+			'valign' => 'M',
+		);
+
+		$p = array_merge($defaults, $params);
+		$this->Cell( $p['w'], $p['h'], $p['txt'], $p['border'], $p['ln'], $p['align'], $p['fill'], $p['link'], $p['stretch'], $p['ignore_min_height'], $p['calign'], $p['valign']);
 	}
 
 	/**
@@ -6797,6 +6849,32 @@ class TCPDF {
 		return $nl;
 	}
 
+	public function MultiCellArray( $params ){
+
+		$defaults = array(
+			'w' => null,
+			'h' => null, 
+			'txt' => null,
+			'border' => 0, 
+			'align' => 'J', 
+			'fill' => false, 
+			'ln' => 1, 
+			'x' => '', 
+			'y' => '', 
+			'reseth' => true, 
+			'stretch' => 0, 
+			'ishtml' => false, 
+			'autopadding' => true, 
+			'maxh' => 0, 
+			'valign' => 'T', 
+			'fitcell' => false	
+		);
+
+		$p = array_merge( $defaults, $params );
+		$this->MultiCellArray( $p['w'], $p['h'], $p['txt'], $p['border'], $p['align'], $p['fill'], $p['ln'], $p['x'], $p['y'], $p['reseth'], $p['stretch'], $p['stretch'], $p['stretch'], $p['ishtml'], $p['autopadding'], $p['maxh'], $p['valign'], $p['fitcell'] );
+	}
+	
+
 	/**
 	 * Get the border mode accounting for multicell position (opens bottom side of multicell crossing pages)
 	 * @param $brd (mixed) Indicates if borders must be drawn around the cell block. The value can be a number:<ul><li>0: no border (default)</li><li>1: frame</li></ul>or a string containing some or all of the following characters (in any order):<ul><li>L: left</li><li>T: top</li><li>R: right</li><li>B: bottom</li></ul> or an array of line styles for each border group: array('LTRB' => array('width' => 2, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 0)))
@@ -7425,6 +7503,26 @@ class TCPDF {
 			return '';
 		}
 		return $nl;
+	}
+
+	public function WriteArray( $params ) {
+		$defaults = array(
+			'h' => null, 
+			'txt' => null,
+			'link' => '', 
+			'fill' => false, 
+			'align' => '', 
+			'ln' => false, 	
+			'stretch' => 0, 
+			'firstline' => false, 
+			'firstblock' => false, 
+			'maxh' => 0, 
+			'wadj' => 0, 
+			'margin' => ''
+		);
+
+		$p = array_merge( $defaults, $params );
+		$this->Write( $p['h'], $p['txt'], $p['link'], $p['fill'], $p['align'], $p['ln'], $p['stretch'], $p['firstline'], $p['firstblock'], $p['maxh'], $p['wadj'], $p['margin'] );
 	}
 
 	/**
@@ -8067,6 +8165,35 @@ class TCPDF {
 			$this->xobjects[$this->xobjid]['images'][] = $info['i'];
 		}
 		return $info['i'];
+	}
+
+	public function ImageArray( $params ){
+	
+		$defaults = array(
+			'file' => null,
+			'x' => '', 
+			'y' => '', 
+			'w' => 0, 
+			'h' => 0, 
+			'type' => '', 
+			'link' => '', 
+			'align' => '', 
+			'resize' => false, 
+			'dpi' => 300, 
+			'palign' => '', 
+			'ismask' => false, 
+			'imgmask' => false, 
+			'border' => 0, 
+			'fitbox' => false, 
+			'hidden' => false, 
+			'fitonpage' => false, 
+			'alt' => false, 
+			'altimgs' => array()
+		);
+
+		$p = array_merge( $defaults, $params );
+
+		return $this->Image( $p['file'], $p['x'], $p['y'], $p['w'], $p['h'], $p['type'], $p['link'], $p['algin'], $p['resize'], $p['dpi'], $p['palign'], $p['ismask'], $p['imgmask'], $p['border'], $p['fitbox'], $p['hidden'], $p['fitonpage'], $p['alt'], $p['altimage'] );
 	}
 
 	/**
@@ -14526,6 +14653,19 @@ class TCPDF {
 		$this->_generateencryptionkey();
 	}
 
+	public function SetProtectionArray( $params ){
+		$defaults = array(
+			'permissions' => array('print', 'modify', 'copy', 'annot-forms', 'fill-forms', 'extract', 'assemble', 'print-high'), 
+			'user_pass' => '', 
+			'owner_pass' => null, 
+			'mode' => 0, 
+			'pubkeys' => null
+		);
+
+		$p = array_merge( $defaults, $params );
+		$this->SetProtection( $p['permissions'], $p['user_pass'], $p['owner_pass'], $p['mode'], $p['pubkeys'] );
+	}
+
 	/**
 	 * Convert hexadecimal string to string
 	 * @param $bs (string) byte-string to convert
@@ -15173,6 +15313,22 @@ class TCPDF {
 		}
 	}
 
+	public function RectArray( $params ){
+
+		$defaults = array(
+			'x' => null, 
+			'y' => null, 
+			'w' => null, 
+			'h' => null, 
+			'style' => '', 
+			'border_style' => array(), 
+			'fill_color' => array()
+		);
+
+		$p = array_merge( $defaults, $params );
+		$this->Rect( $p['x'], $p['y'], $p['w'], $p['h'], $p['style'], $p['border_style'], $p['fill_color'] );
+	}
+
 	/**
 	 * Draws a Bezier curve.
 	 * The Bezier curve is a tangent to the line between the control points at
@@ -15203,6 +15359,25 @@ class TCPDF {
 		$this->_outPoint($x0, $y0);
 		$this->_outCurve($x1, $y1, $x2, $y2, $x3, $y3);
 		$this->_out($op);
+	}
+
+	public function CurveArray( $params ){
+		$defaults = array(
+			'x0', 
+			'y0', 
+			'x1', 
+			'y1' => null, 
+			'x2' => null, 
+			'y2' => null, 
+			'x3' => null, 
+			'y3' => null, 
+			'style' => '', 
+			'line_style' => array(), 
+			'fill_color' => array()
+		);
+
+		$p = array_merge( $defaults, $params );
+		$this->Curve( $p['x0'], $p['y0'], $p['x1'], $p['x2'], $p['y2'], $p['x3'], $p['y3'], $p['style'], $p['line_style'], $p['fill_color'] );
 	}
 
 	/**
@@ -15236,6 +15411,20 @@ class TCPDF {
 			$this->_outCurve($x1, $y1, $x2, $y2, $x3, $y3);
 		}
 		$this->_out($op);
+	}
+
+	public function PolycurveArray( $params ){
+		$defaults = array(
+			'x0' => null, 
+			'y0 '=> null, 
+			'segments' => null, 
+			'style' => '' , 
+			'line_style' => array(), 
+			'fill_color' => array(),
+		);
+
+		$p = array_merge( $defaults, $params );
+		$this->PolycurveArray( $p['x0'], $p['y0'], $p['segments'], $p['style'], $p['line_style'], $p['line_style'], $p['fill_color'] );
 	}
 
 	/**
@@ -15272,6 +15461,26 @@ class TCPDF {
 		}
 		$this->_outellipticalarc($x0, $y0, $rx, $ry, $angle, $astart, $afinish, false, $nc, true, true, false);
 		$this->_out($op);
+	}
+
+	public function EllipseArray( $params ){
+		
+		$defaults = array(
+			'x0' => null,
+			'y0' => null,
+			'rx' => null, 
+			'ry' => '', 
+			'angle' => 0, 
+			'astart' => 0, 
+			'afinish' => 360,
+			'style' => '', 
+			'line_style' => array(), 
+			'fill_color' => array(), 
+			'nc' => 2
+		);
+
+		$p = array_merge( $defaults, $params );
+		$this->Ellipse( $p['x0'], $p['y0'], $p['rx'], $p['ry'], $p['angle'], $p['astart'], $p['afinish'], $p['style'], $p['line_style'], $p['fill_color'], $p['nc'] );
 	}
 
 	/**
